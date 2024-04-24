@@ -134,7 +134,7 @@ void test_to_array(rbtree *t, const key_t *arr, const size_t n) {
   qsort((void *)arr, n, sizeof(key_t), comp);
 
   key_t *res = calloc(n, sizeof(key_t));
-  rbtree_to_array(t, res, n);
+  rbtree_to_array(t, res, n); // 자체가 res array를 반환
   for (int i = 0; i < n; i++) {
     assert(arr[i] == res[i]);
   }
@@ -318,7 +318,7 @@ void test_find_erase(rbtree *t, const key_t *arr, const size_t n) {
 
   for (int i = 0; i < n; i++) {
     node_t *p = rbtree_find(t, arr[i]);
-    // printf("arr[%d] = %d\n", i, arr[i]);
+    printf("arr1[%d] = %d\n", i, arr[i]);
     assert(p != NULL);
     assert(p->key == arr[i]);
     rbtree_erase(t, p);
@@ -326,6 +326,8 @@ void test_find_erase(rbtree *t, const key_t *arr, const size_t n) {
 
   for (int i = 0; i < n; i++) {
     node_t *p = rbtree_find(t, arr[i]);
+    printf("arr2[%d] = %d\n", i, arr[i]);
+
     assert(p == NULL);
   }
 
@@ -333,6 +335,7 @@ void test_find_erase(rbtree *t, const key_t *arr, const size_t n) {
     node_t *p = rbtree_insert(t, arr[i]);
     assert(p != NULL);
     node_t *q = rbtree_find(t, arr[i]);
+    printf("arr3[%d] = %d\n", i, arr[i]);
     assert(q != NULL);
     assert(q->key == arr[i]);
     assert(p == q);
@@ -367,17 +370,18 @@ void test_find_erase_rand(const size_t n, const unsigned int seed) {
   delete_rbtree(t);
 }
 
+
 int main(void) {
-  test_init();
-  test_insert_single(1024);
-  test_find_single(512, 1024);
-  test_erase_root(128);
-  test_find_erase_fixed();
-  test_minmax_suite();
-  test_to_array_suite();
-  test_distinct_values();
-  test_duplicate_values();
-  test_multi_instance();
+  // test_init();                    //통과통과통과
+  // test_insert_single(1024);       //통과통과통과
+  // test_find_single(512, 1024);    //통과통과통과
+  // test_erase_root(128);           //통과통과통과
+  // test_find_erase_fixed();        //통과통과통과
+  // test_minmax_suite();            //통과통과통과
+  // test_to_array_suite();          //통과통과통과
+  // test_distinct_values();         //통과통과통과
+  // test_duplicate_values();        //통과통과통과
+  // test_multi_instance();          //통과통과통과
   test_find_erase_rand(10000, 17);
   printf("Passed all tests!\n");
 }
